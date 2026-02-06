@@ -3,6 +3,33 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+class Vocabulary:
+    def __init__(self):
+        self.word2idx = {}
+        self.idx2word = {}
+        self.idx = 0
+    
+    def add_word(self, word):
+        if word not in self.word2idx:
+            self.word2idx[word] = self.idx
+            self.idx2word[self.idx] = word
+            self.idx += 1
+    
+    def __len__(self):
+        return len(self.word2idx)
+    
+    def encode(self, words):
+        """Convert list of words to indices"""
+        return [self.word2idx.get(word, self.word2idx.get('<unk>', 0)) for word in words]
+    
+    def decode(self, indices):
+        """Convert list of indices to sentence"""
+        words = [self.idx2word.get(idx, '<unk>') for idx in indices 
+                 if idx not in [self.word2idx.get('<pad>', 0), 
+                               self.word2idx.get('<start>', 1), 
+                               self.word2idx.get('<end>', 2)]]
+        return ' '.join(words)
+
 class Encoder(nn.Module):
     def __init__(self, image_feature_dim=2048, hidden_size=512):
         super(Encoder, self).__init__()

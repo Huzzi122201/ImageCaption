@@ -22,7 +22,7 @@ st.markdown("Upload an image and let AI describe it for you!")
 @st.cache_resource
 def load_model_and_vocab():
     # Import model classes (you'll need to copy them or import from a module)
-    from model import ImageCaptioningModel  # Assuming you save model classes in model.py
+    from model import ImageCaptioningModel, Vocabulary  # Import Vocabulary class for unpickling
     
     # Load vocabulary
     with open('vocabulary.pkl', 'rb') as f:
