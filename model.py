@@ -57,13 +57,15 @@ class Decoder(nn.Module):
         self.hidden_size = hidden_size
         self.num_layers = num_layers
         
-        self.embedding = nn.Embedding(vocab_size, embed_size, padding_idx=0)
+        # Match saved model parameter names
+        self.embed = nn.Embedding(vocab_size, embed_size, padding_idx=0)
+        self.feature_to_embed = nn.Linear(hidden_size, embed_size)
         self.lstm = nn.LSTM(embed_size, hidden_size, num_layers, batch_first=True, dropout=0.5 if num_layers > 1 else 0)
-        self.fc = nn.Linear(hidden_size, vocab_size)
+        self.linear = nn.Linear(hidden_size, vocab_size)
         self.dropout = nn.Dropout(0.5)
     
     def forward(self, captions, hidden_state, cell_state=None):
-        embeddings = self.embedding(captions)
+        embeddings = self.embed(captions)
         embeddings = self.dropout(embeddings)
         
         h0 = hidden_state.unsqueeze(0).repeat(self.num_layers, 1, 1)
@@ -74,7 +76,7 @@ class Decoder(nn.Module):
             c0 = cell_state.unsqueeze(0).repeat(self.num_layers, 1, 1)
         
         lstm_out, (hn, cn) = self.lstm(embeddings, (h0, c0))
-        outputs = self.fc(lstm_out)
+        outputs = self.linear(lstm_out)
         
         return outputs, (hn, cn)
 
@@ -111,9 +113,9 @@ class ImageCaptioningModel(nn.Module):
         c = torch.zeros_like(h)
         
         for _ in range(max_length):
-            embeddings = self.decoder.embedding(input_word)
+            embeddings = self.decoder.embed(input_word)
             lstm_out, (h, c) = self.decoder.lstm(embeddings, (h, c))
-            outputs = self.decoder.fc(lstm_out.squeeze(1))
+            outputs = self.decoder.linear(lstm_out.squeeze(1))
             predicted = outputs.argmax(1)
             predicted_idx = predicted.item()
             
@@ -147,9 +149,9 @@ class ImageCaptioningModel(nn.Module):
                     continue
                 
                 input_word = torch.tensor([[seq[-1]]], device=device)
-                embeddings = self.decoder.embedding(input_word)
+                embeddings = self.decoder.embed(input_word)
                 lstm_out, (h_new, c_new) = self.decoder.lstm(embeddings, (h_state, c_state))
-                outputs = self.decoder.fc(lstm_out.squeeze(1))
+                outputs = self.decoder.linear(lstm_out.squeeze(1))
                 log_probs = F.log_softmax(outputs, dim=1)
                 top_log_probs, top_indices = log_probs.topk(beam_size)
                 
