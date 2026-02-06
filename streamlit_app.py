@@ -6,6 +6,13 @@ from torchvision import models, transforms
 from PIL import Image
 import pickle
 import numpy as np
+import sys
+
+# Import Vocabulary at module level for pickle compatibility
+from model import ImageCaptioningModel, Vocabulary
+
+# Make Vocabulary available in __main__ namespace for pickle
+sys.modules['__main__'].Vocabulary = Vocabulary
 
 # Set page config
 st.set_page_config(
@@ -21,9 +28,6 @@ st.markdown("Upload an image and let AI describe it for you!")
 # Load model and vocabulary (cached)
 @st.cache_resource
 def load_model_and_vocab():
-    # Import model classes (you'll need to copy them or import from a module)
-    from model import ImageCaptioningModel, Vocabulary  # Import Vocabulary class for unpickling
-    
     # Load vocabulary
     with open('vocabulary.pkl', 'rb') as f:
         vocab = pickle.load(f)
