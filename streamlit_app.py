@@ -87,7 +87,7 @@ if uploaded_file is not None:
     col1, col2 = st.columns(2)
     
     with col1:
-        st.image(image, caption="Uploaded Image", use_column_width=True)
+        st.image(image, caption="Uploaded Image", use_container_width=True)
     
     with col2:
         st.subheader("Generated Captions")

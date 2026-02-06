@@ -11,7 +11,13 @@ class Encoder(nn.Module):
         self.dropout = nn.Dropout(0.5)
     
     def forward(self, image_features):
+        # Ensure batch dimension for BatchNorm1d
+        if image_features.dim() == 1:
+            image_features = image_features.unsqueeze(0)
         x = self.fc(image_features)
+        # Handle single sample case for BatchNorm
+        if x.size(0) == 1:
+            self.bn.eval()  # Use running stats for single sample
         x = self.bn(x)
         x = F.relu(x)
         x = self.dropout(x)
