@@ -32,11 +32,11 @@ def load_model_and_vocab():
     with open('vocabulary.pkl', 'rb') as f:
         vocab = pickle.load(f)
     
-    # Initialize model
+    # Initialize model with notebook architecture params
     model = ImageCaptioningModel(
         vocab_size=len(vocab),
-        embed_size=256,
-        hidden_size=512,
+        embed_size=384,
+        hidden_size=768,
         num_layers=1
     )
     
@@ -94,30 +94,20 @@ if uploaded_file is not None:
         st.image(image, caption="Uploaded Image", use_container_width=True)
     
     with col2:
-        st.subheader("Generated Captions")
+        st.subheader("Generated Caption")
         
         # Settings
-        method = st.radio("Decoding Method", ["Greedy Search", "Beam Search"])
         max_length = st.slider("Max Caption Length", 10, 30, 20)
-        
-        if method == "Beam Search":
-            beam_size = st.slider("Beam Size", 2, 5, 3)
         
         if st.button("Generate Caption", type="primary"):
             with st.spinner("Generating caption..."):
                 # Extract features
                 features = extract_features(image, feature_extractor)
                 
-                # Generate caption
-                if method == "Greedy Search":
-                    caption = caption_model.generate_caption(
-                        features, vocab, max_length=max_length, method='greedy'
-                    )
-                else:
-                    caption = caption_model.generate_caption(
-                        features, vocab, max_length=max_length, 
-                        method='beam', beam_size=beam_size
-                    )
+                # Generate caption (greedy decoding)
+                caption = caption_model.generate_caption(
+                    features, vocab, max_length=max_length
+                )
                 
                 # Display caption
                 st.success("Caption Generated!")
@@ -133,8 +123,9 @@ st.sidebar.info(
 
 st.sidebar.title("🎯 Model Details")
 st.sidebar.markdown("""
-- **Encoder**: ResNet50 + Linear projection
-- **Decoder**: LSTM with word embeddings
-- **Vocabulary**: ~5000 words
-- **Dataset**: Flickr30k
+- **Encoder**: ResNet50 + Linear projection (768-dim)
+- **Decoder**: LSTM with 384-dim word embeddings
+- **Hidden Size**: 768
+- **Vocabulary**: ~7689 words
+- **Dataset**: Flickr30k (31783 images)
 """)
