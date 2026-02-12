@@ -40,10 +40,11 @@ class Vocabulary:
 class Encoder(nn.Module):
     """Projects 2048-dim image features to hidden_size"""
 
-    def __init__(self, image_feature_dim=2048, hidden_size=768):
+    def __init__(self, image_feature_dim=2048, hidden_size=768, dropout=0.3):
         super(Encoder, self).__init__()
         self.fc = nn.Linear(image_feature_dim, hidden_size)
         self.bn = nn.BatchNorm1d(hidden_size, momentum=0.01)
+        self.dropout = nn.Dropout(dropout)
 
     def forward(self, image_features):
         if image_features.dim() == 1:
@@ -52,13 +53,14 @@ class Encoder(nn.Module):
         if x.size(0) == 1:
             self.bn.eval()
         x = self.bn(x)
+        x = self.dropout(x)
         return x  # (batch_size, hidden_size)
 
 
 class Decoder(nn.Module):
     """LSTM Decoder"""
 
-    def __init__(self, vocab_size, embed_size=384, hidden_size=768, num_layers=1):
+    def __init__(self, vocab_size, embed_size=384, hidden_size=768, num_layers=1, dropout=0.3):
         super(Decoder, self).__init__()
         self.hidden_size = hidden_size
         self.num_layers = num_layers
@@ -70,6 +72,7 @@ class Decoder(nn.Module):
             num_layers=num_layers,
             batch_first=True
         )
+        self.dropout = nn.Dropout(dropout)
         self.fc = nn.Linear(hidden_size, vocab_size)
 
     def forward(self, features, captions):
@@ -84,6 +87,7 @@ class Decoder(nn.Module):
         c0 = torch.zeros_like(h0)
 
         lstm_out, _ = self.lstm(embeddings, (h0, c0))
+        lstm_out = self.dropout(lstm_out)
         outputs = self.fc(lstm_out)
 
         return outputs
