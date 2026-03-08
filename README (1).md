@@ -279,28 +279,8 @@ This will output:
 - Precision, Recall, F1-Score (token-level)
 - Sample predictions with visualizations
 
----
 
-## 🛠️ Recent Updates
 
-### v1.2.0 (3 weeks ago)
-- ✅ Updated UI design with improved aesthetics
-- ✅ Fixed model architecture with dropout layers
-- ✅ Enhanced caption quality with beam search
-- ✅ Added real-time preview in Streamlit
-
-### v1.1.0 (1 month ago)
-- ✅ Fixed deployment issues with vocabulary.pkl
-- ✅ Resolved BatchNorm compatibility
-- ✅ Updated requirements for Streamlit/Altair
-- ✅ Added comprehensive error handling
-
-### v1.0.0 (Initial Release)
-- 🎉 First working version
-- 🎉 Model training pipeline
-- 🎉 Basic Streamlit interface
-
----
 
 ## 🧪 Technologies Used
 
@@ -334,13 +314,7 @@ This will output:
 
 ---
 
-## 🎓 Academic Context
 
-This project was developed as part of:
-- **Course**: Generative AI (AI4009)
-- **Institution**: National University of Computer and Emerging Sciences (NUCES)
-- **Semester**: Spring 2026
-- **Team Size**: 2 members
 
 ### Learning Objectives Achieved
 ✅ Understanding multimodal deep learning  
@@ -361,26 +335,6 @@ We welcome contributions! Here's how you can help:
 4. **Push to the branch** (`git push origin feature/AmazingFeature`)
 5. **Open a Pull Request**
 
-### Areas for Improvement
-- [ ] Add attention mechanism
-- [ ] Implement Transformer decoder
-- [ ] Support for multiple languages
-- [ ] Mobile app deployment
-- [ ] Fine-tuning on domain-specific datasets
-- [ ] Reinforcement learning optimization
-
----
-
-## 🐛 Known Issues
-
-- **LSTM Counting**: Model struggles with numeracy ("three dogs" → "a dog")
-- **Generic Descriptions**: Sometimes generates safe, generic captions
-- **Memory**: Requires ~8GB GPU memory for training
-- **CPU Inference**: Slow on CPU (10-15s per image)
-
-See [Issues](https://github.com/yourusername/neural-storyteller/issues) for more details.
-
----
 
 ## 📄 License
 
@@ -393,19 +347,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **ResNet50**: [Deep Residual Learning for Image Recognition](https://arxiv.org/abs/1512.03385) (He et al., 2015)
 - **Show and Tell**: [A Neural Image Caption Generator](https://arxiv.org/abs/1411.4555) (Vinyals et al., 2015)
 - **Flickr30k**: Image dataset provided by University of Illinois
-- **NUCES Faculty**: For guidance and course structure
-- **PyTorch Community**: For excellent documentation and tutorials
 
 ---
 
-## 📞 Contact
 
-**Authors**: [Your Name] & [Partner's Name]
-
-- 📧 Email: your.email@example.com
-- 💼 LinkedIn: [Your LinkedIn](https://linkedin.com/in/yourprofile)
-- 🌐 Portfolio: [Your Website](https://yourwebsite.com)
-- 📝 Blog: [Medium Article](https://medium.com/@yourname)
 
 ---
 
@@ -428,7 +373,6 @@ If you found this project helpful, please consider giving it a ⭐!
 
 <div align="center">
 
-**Made with ❤️ and 🧠 by [Your Names]**
 
 *Bridging the gap between what machines see and what humans say*
 
