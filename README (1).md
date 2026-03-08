@@ -19,10 +19,7 @@
 
 Neural Storyteller is a deep learning project that bridges **Computer Vision** and **Natural Language Processing** to generate natural language descriptions for images. Using a Seq2Seq architecture with ResNet50 encoder and LSTM decoder, the model can look at any image and describe what it sees in coherent, contextual sentences.
 
-<div align="center">
-  <img src="https://via.placeholder.com/800x400/1a1a1a/ffffff?text=Demo+Screenshot" alt="Neural Storyteller Demo" width="80%">
-  <p><i>Example: Upload an image → Get AI-generated caption</i></p>
-</div>
+
 
 ### 🎯 What Makes This Special?
 
@@ -363,15 +360,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-## 🎉 Star History
 
-If you found this project helpful, please consider giving it a ⭐!
-
-[![Star History Chart](https://api.star-history.com/svg?repos=yourusername/neural-storyteller&type=Date)](https://star-history.com/#yourusername/neural-storyteller&Date)
-
----
-
-<div align="center">
 
 
 *Bridging the gap between what machines see and what humans say*
